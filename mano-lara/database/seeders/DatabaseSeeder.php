@@ -36,5 +36,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123'),
             'role' => 10,
         ]);
+
+        foreach(range(1, 120) as $_){
+            DB::table('animals')->insert([
+                'name' => $faker->state,
+                'color_id' => rand(1, 10),
+            ]);
+        }
     }
 }

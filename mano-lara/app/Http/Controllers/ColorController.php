@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Color;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\returnSelf;
+
 class ColorController extends Controller
 {
 
@@ -27,7 +29,7 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //
+        return view('colors/create');
     }
 
     /**
@@ -38,7 +40,11 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $color = new Color;
+        $color->color = $request->color;
+        $color->title = $request->title;
+        $color->save();
+        return redirect()->route('colors-index');
     }
 
     /**
@@ -83,6 +89,10 @@ class ColorController extends Controller
      */
     public function destroy(Color $color)
     {
-        //
+        if (!$color->animalDelete->count()) {
+            $color->delete();
+            return redirect()->route('colors-index');
+        }
+        return redirect()->back();
     }
 }

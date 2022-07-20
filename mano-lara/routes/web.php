@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('/', [FrontController::class, 'index'])->name('front-index');
+
+
 Route::get('/colors', [ColorController::class, 'index'])->name('colors-index')->middleware('roleP:user');
+Route::get('/colors/create', [ColorController::class, 'create'])->name('colors-create')->middleware('roleP:user');
+Route::post('/colors/store', [ColorController::class, 'store'])->name('colors-store')->middleware('roleP:user');
+Route::delete('/colors/delete/{color}', [ColorController::class, 'destroy'])->name('colors-delete')->middleware('roleP:user');
+
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals-index')->middleware('roleP:user');
 Route::get('/animals/create', [AnimalController::class, 'create'])->name('animals-create')->middleware('roleP:admin');
 Route::post('/animals/store', [AnimalController::class, 'store'])->name('animals-store')->middleware('roleP:admin');
