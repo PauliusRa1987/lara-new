@@ -11,11 +11,11 @@
                     <div class="form-group m">
                         <div class="form-group mix">
                             <label for="color">Pick a Color</label>
-                            <input class="form-control" type="color" class="form-control" name="color">
+                            <input class="form-control" type="color" name="color" value="{{old('color')}}">
                         </div>
                         <div class="form-group mt-3">
                             <label for="name">Color name</label>
-                            <input type="text" class="form-control" name="title" >
+                            <input type="text" class="form-control" name="title" value="{{old('title')}}">
                         </div>
                         
                         <button type="submit" class="btn btn-primary mt-5">Submit</button>

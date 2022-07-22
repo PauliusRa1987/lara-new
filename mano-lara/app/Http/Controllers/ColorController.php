@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Color;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 use function PHPUnit\Framework\returnSelf;
 
 class ColorController extends Controller
@@ -40,11 +40,26 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'title' => ['required', 'min:3', 'max:64'],
+            'color' => ['required', 'regex:/^\#([0-9A-Fa-f]){6}$/'],
+        ],
+        [
+            'title.required' => 'Write something!',
+            'title.min' => 'You are too short!',
+        ]
+        );
+
+       if ($validator->fails()) {
+           $request->flash();
+           return redirect()->back()->withErrors($validator);
+       }
         $color = new Color;
         $color->color = $request->color;
         $color->title = $request->title;
         $color->save();
-        return redirect()->route('colors-index');
+        return redirect()->route('colors-index')->with('success', 'New color is created!');
     }
 
     /**
@@ -91,8 +106,8 @@ class ColorController extends Controller
     {
         if (!$color->animalDelete->count()) {
             $color->delete();
-            return redirect()->route('colors-index');
+            return redirect()->route('colors-index')->with('deleted', 'Your color was deleted!');
         }
-        return redirect()->back();
+        return redirect()->back()->with('alert', 'You can`t dealete this color!');
     }
 }

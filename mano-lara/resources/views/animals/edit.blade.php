@@ -8,10 +8,10 @@
                 <div class="card-body edit">
                     <form class="form club" action="{{route('animals-update', $animal)}}" method="post">
                         <div class="form-group m">
-                        <input class="form-control mr-1" type="text" name="name" value="{{$animal->name}}">
+                        <input class="form-control mr-1" type="text" name="name" value="{{old('name', $animal->name)}}">
                         <select class="form-control mt-3" name="color_id">
                             @foreach($colors as $color)
-                            <option value={{$color->id}} @if($color->id == $animal->color_id)
+                            <option value="{{$color->id}}" @if($color->id == old('color_id', $color->id))
                                 selected
                                 @endif>{{$color->title}}</option>
                             @endforeach

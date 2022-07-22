@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::get('/welcome', function () {
 });
 
 Route::get('/', [FrontController::class, 'index'])->name('front-index');
+Route::post('/front/add', [OrderController::class, 'add'])->name('orders-add');
 
 
 Route::get('/colors', [ColorController::class, 'index'])->name('colors-index')->middleware('roleP:user');

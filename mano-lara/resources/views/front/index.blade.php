@@ -24,11 +24,7 @@
                             <li class="list-group-item li mt-2" style="background: {{$animal->color}}">
                                 <div class="li-ins">{{$animal->name}}<i class="i">{{$animal->title}}<i></div>
                             </li>
-                            <div class="div-btn-box">
-                                <form action="" method="get">
-                                    <button class="btn btn-outline-warning m-2 " type="submit">Kill BIll</button>
-                                </form>
-                            </div>
+                            @include('orders.order')
                         </div>
                         @endforeach
                     </ul>

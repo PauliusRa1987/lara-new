@@ -10,6 +10,7 @@
                         <div class="form-group m">
                         <input class="form-control mr-1" type="text" name="name">
                         <select class="form-control mt-3" name="color_id">
+                        <option value="">-- Pick the color --</option>
                             @foreach($colors as $color)
                             <option value={{$color->id}}>{{$color->title}}</option>
                             @endforeach

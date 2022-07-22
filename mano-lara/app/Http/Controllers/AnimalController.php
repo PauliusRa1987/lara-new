@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Color;
 use App\Models\Animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AnimalController extends Controller
 {
@@ -43,11 +44,26 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'name' => ['required', 'min:3', 'max:64'],
+            'color_id' => ['required', 'numeric', 'max:20'],
+        ],
+        // [
+        //     'title.required' => 'Write something!',
+        //     'title.min' => 'You are too short!',
+        // ]
+        );
+
+       if ($validator->fails()) {
+           $request->flash();
+           return redirect()->back()->withErrors($validator);
+       }
         $animal = new Animal;
         $animal->name = $request->name;
         $animal->color_id = $request->color_id;
         $animal->save();
-        return redirect()->route('animals-index');
+        return redirect()->route('animals-index')->with('success', 'Your colorfull animal was created!');
     }
 
     /**
@@ -83,10 +99,20 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'name' => ['required', 'min:3', 'max:64'],
+            'color_id' => ['required', 'numeric', 'max:20'],
+        ],
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
         $animal->name = $request->name;
         $animal->color_id = $request->color_id;
         $animal->save();
-        return redirect()->route('animals-index');
+        return redirect()->route('animals-index')->with('success', 'Animal edited successfully!');
     }
 
     /**
@@ -98,6 +124,6 @@ class AnimalController extends Controller
     public function destroy(Animal $animal)
     {
         $animal->delete();
-        return redirect()->route('animals-index');
+        return redirect()->route('animals-index')->with('deleted', 'Animal was killed!');
     }
 }
